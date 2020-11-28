@@ -9,7 +9,7 @@ from nxt.sensor import *
 
 myBrickHost = '00:16:53:02:8D:24'
 ONEDGELIMIT = 16
-STEPSPEED = 30
+STEPSPEED = 60
 STEPROTATION = 90
 
 def idle():
@@ -113,7 +113,9 @@ log('starting...')
 
 log('NXT brick acquiring')
 
-b = nxt.locator.find_one_brick(host = myBrickHost)
+#nxt.locator.make_config()
+b = nxt.locator.find_one_brick(host = myBrickHost, debug = True)
+#b = nxt.locator.find_one_brick()
 left_motor = nxt.Motor(b, nxt.PORT_A)
 right_motor = nxt.Motor(b, nxt.PORT_B)
 
@@ -136,7 +138,7 @@ thread.start_new_thread(checkEdge, (leftEdgeSensor, rightEdgeSensor, edgeStatus)
 
 log('start loop')
 end = False
-while True:
+while not end:
     
     if not end: # no stop button yet
         end = endSensor.get_sample()
